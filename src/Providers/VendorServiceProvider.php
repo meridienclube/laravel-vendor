@@ -2,17 +2,11 @@
 
 namespace ConfrariaWeb\Vendor\Providers;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class VendorServiceProvider extends ServiceProvider
 {
-
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    //protected $defer = true;
 
     /**
      * Bootstrap services.
@@ -21,7 +15,11 @@ class VendorServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->loadViewsFrom(__DIR__ . '/../Views', 'vendor');
 
+        Blade::directive('datetime', function ($expression) {
+            return "<?php echo ($expression)->format('m/d/Y H:i'); ?>";
+        });
     }
 
     /**
@@ -34,17 +32,4 @@ class VendorServiceProvider extends ServiceProvider
 
     }
 
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    /*
-    public function provides()
-    {
-        return [
-            'VendorService'
-        ];
-    }
-    */
 }

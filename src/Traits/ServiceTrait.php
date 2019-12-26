@@ -190,7 +190,7 @@ trait ServiceTrait
             //dd($this->obj);
             $data = $this->prepareData($data);
             $data = $this->prepareRelationships($data);
-            $data = $this->sometimes($data);
+            //$data = $this->sometimes($data);
             $this->executeEvent($this->obj->obj, 'Saving');
             $this->executeEvent($this->obj->obj, 'Creating');
             $obj = $this->obj->create($data);

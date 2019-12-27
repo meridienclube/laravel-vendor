@@ -1,6 +1,10 @@
 # CW Vendor Laravel
 
-Um pacote laravel vendor para os sistemas
+Base package for all other laravel packages
+
+## layouts
+
+Include for icon usage the following google library <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 ## License
 

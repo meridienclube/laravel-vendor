@@ -1,4 +1,4 @@
-<div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+<div class="btn-group btn-group-sm float-right" role="group" aria-label="Small button group">
     <a href="{{ route($nameRoute . '.show', $obj->id) }}" type="button" class="btn btn-primary">
         <i class="material-icons ">visibility</i>
     </a>

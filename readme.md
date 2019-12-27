@@ -1,4 +1,4 @@
-# CW Vendor Laravel
+# Package Vendor Laravel
 
 Base package for all other laravel packages
 

@@ -362,32 +362,47 @@ trait ServiceTrait
         return false;
     }
 
-    /**
-     * @param $obj
-     * @param $action
-     * @param $data
-     */
     public function executeEvent($obj, $action)
     {
         try {
-            if ($obj) {
-                $get_class_basename = class_basename(get_class($obj));
-                $get_class_basename = ('UserAuth' == $get_class_basename) ? 'User' : $get_class_basename;
-                $event = 'App\\Events\\' . $get_class_basename . $action . 'Event';
-                if (class_exists($event)) {
-                    $eventClass = new $event($obj);
-                    event($eventClass);
-                }
+            $event = $this->checkEventExist($obj, $action);
+            if ($event) {
+                $eventClass = new $event($obj);
+                event($eventClass);
             }
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }
     }
 
-    /**
-     * @param $obj
-     * @param $when
-     */
+    private function checkEventExist($obj, $action)
+    {
+        if (!$obj) {
+            return false;
+        }
+
+        $event = false;
+        $eventCW = false;
+
+        $get_class = get_class($obj);
+        $get_class_basename = class_basename(get_class($obj));
+
+        $event = 'App\\Events\\' . $get_class_basename . $action . 'Event';
+        if (class_exists($event)) {
+            return $event;
+        }
+
+        $explodeClass = explode('\\', $get_class);
+        if (isset($explodeClass[0]) && $explodeClass[0] == 'ConfrariaWeb' && isset($explodeClass[1])) {
+            $eventCW = 'ConfrariaWeb\\' . $explodeClass[1] . '\\Events\\' . $get_class_basename . $action . 'Event';
+            if (class_exists($eventCW)) {
+                return $eventCW;
+            }
+        }
+
+        return false;
+    }
+
     public function executeSchedule($obj, $when)
     {
         try {
@@ -518,7 +533,7 @@ trait ServiceTrait
     public function datatable($data)
     {
         $table = $this->obj->obj->getTable();
-        $objThis = (!isset($data['trashed']) || $data['trashed'] < 1)? $this->obj : $this->obj->onlyTrashed();
+        $objThis = (!isset($data['trashed']) || $data['trashed'] < 1) ? $this->obj : $this->obj->onlyTrashed();
         $draw = isset($data['draw']) ? $data['draw'] : NULL;
         $skip = isset($data['start']) ? $data['start'] : 0;
         $take = isset($data['length']) ? $data['length'] : 10;

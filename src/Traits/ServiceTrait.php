@@ -387,14 +387,14 @@ trait ServiceTrait
         $get_class = get_class($obj);
         $get_class_basename = class_basename(get_class($obj));
 
-        $event = 'App\\Events\\' . $get_class_basename . $action . 'Event';
+        $event = (string) 'App\\Events\\' . $get_class_basename . $action . 'Event';
         if (class_exists($event)) {
             return $event;
         }
 
         $explodeClass = explode('\\', $get_class);
         if (isset($explodeClass[0]) && $explodeClass[0] == 'ConfrariaWeb' && isset($explodeClass[1])) {
-            $eventCW = 'ConfrariaWeb\\' . $explodeClass[1] . '\\Events\\' . $get_class_basename . $action . 'Event';
+            $eventCW = (string) 'ConfrariaWeb\\' . $explodeClass[1] . '\\Events\\' . $get_class_basename . $action . 'Event';
             if (class_exists($eventCW)) {
                 return $eventCW;
             }

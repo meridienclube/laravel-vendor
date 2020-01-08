@@ -15,6 +15,17 @@
     ],
     "require": {},
     "autoload": {
+        "files": [
+            "src/Helpers/percent.php",
+            "src/Helpers/integrations.php",
+            "src/Helpers/is_json.php",
+            "src/Helpers/schedule_observer.php",
+            "src/Helpers/task.php",
+            "src/Helpers/get_fillable.php",
+            "src/Helpers/class_historic.php",
+            "src/Helpers/historic_change.php",
+            "src/Helpers/user.php"
+        ],
         "psr-4": {
             "ConfrariaWeb\\Vendor\\": "src"
         }

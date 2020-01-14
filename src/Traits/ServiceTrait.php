@@ -127,7 +127,7 @@ trait ServiceTrait
             throw new RuntimeException('Missing OBJ attribute in ServiceTraitPluck');
         }
         try {
-            return $this->obj->all()->pluck($field, $id);
+            return $this->obj->pluck($field, $id);
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }
@@ -410,6 +410,7 @@ trait ServiceTrait
                 return false;
             }
             $where = class_basename(get_class($obj));
+            Log::info($where);
             if (isset($obj) && isset($when) && isset($where)) {
                 resolve('ScheduleService')->executeService($obj, $where, $when);
             }

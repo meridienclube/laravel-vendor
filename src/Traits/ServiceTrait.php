@@ -388,6 +388,7 @@ trait ServiceTrait
         $get_class_basename = class_basename(get_class($obj));
 
         $event = (string) 'App\\Events\\' . $get_class_basename . $action . 'Event';
+
         if (class_exists($event)) {
             return $event;
         }

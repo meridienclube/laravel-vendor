@@ -78,6 +78,11 @@ trait ServiceTrait
         return $this->obj->get();
     }
 
+    public function first()
+    {
+        return $this->obj->first();
+    }
+
     function all()
     {
         if (!property_exists($this, 'obj')) {

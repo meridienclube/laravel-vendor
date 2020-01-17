@@ -69,6 +69,11 @@ trait RepositoryTrait
         return $this->obj->get();
     }
 
+    public function first()
+    {
+        return $this->obj->first();
+    }
+
     public function paginate($take = 10)
     {
         return $this->obj->paginate($take);
@@ -112,6 +117,15 @@ trait RepositoryTrait
             throw new RuntimeException('Missing OBJ attribute in EloquentTraitFind');
         }
         return $this->obj->find($id);
+    }
+
+    public function pluck($field = 'name', $id = 'id')
+    {
+        if (!property_exists($this, 'obj')) {
+            Log::error('Missing OBJ attribute in EloquentTraitFind');
+            throw new RuntimeException('Missing OBJ attribute in EloquentTraitFind');
+        }
+        return $this->obj->get()->pluck($field, $id);
     }
 
     public function findBy($field, $value)

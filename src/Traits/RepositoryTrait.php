@@ -91,7 +91,7 @@ trait RepositoryTrait
             Log::error('Missing OBJ attribute in EloquentTraitAll');
             throw new RuntimeException('Missing OBJ attribute in EloquentTraitAll');
         }
-        return $this->obj->get();
+        return $this->obj->all();
     }
 
     public function create(array $data)

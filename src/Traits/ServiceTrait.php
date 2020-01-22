@@ -415,11 +415,10 @@ trait ServiceTrait
     public function executeSchedule($obj, $when)
     {
         try {
-            if (!class_exists('ScheduleService')) {
+            if (!class_exists('ConfrariaWeb\\Schedule\\Services\\ScheduleService')) {
                 return false;
             }
             $where = class_basename(get_class($obj));
-            Log::info($where);
             if (isset($obj) && isset($when) && isset($where)) {
                 resolve('ScheduleService')->executeService($obj, $where, $when);
             }

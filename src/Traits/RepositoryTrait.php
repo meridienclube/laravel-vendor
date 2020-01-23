@@ -227,6 +227,33 @@ trait RepositoryTrait
         return $this;
     }
 
+    public function whereBetween(string $column, $from = null, $to = null)
+    {
+        if (!property_exists($this, 'obj')) {
+            throw new RuntimeException('Missing OBJ attribute');
+        }
+        $this->obj = $this->obj->whereBetween($column, [$from, $to]);
+        return $this;
+    }
+
+    public function whereDate(string $column, $date = null)
+    {
+        if (!property_exists($this, 'obj')) {
+            throw new RuntimeException('Missing OBJ attribute');
+        }
+        $this->obj = $this->obj->whereDate($column, $date);
+        return $this;
+    }
+
+    public function orWhereBetween(string $column, $from = null, $to = null)
+    {
+        if (!property_exists($this, 'obj')) {
+            throw new RuntimeException('Missing OBJ attribute');
+        }
+        $this->obj = $this->obj->whereBetween($column, [$from, $to]);
+        return $this;
+    }
+
     protected function attachEloquent($obj, array $data)
     {
         if (!property_exists($this, 'obj')) {

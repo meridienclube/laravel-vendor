@@ -181,10 +181,49 @@ trait ServiceTrait
         return $this;
     }
 
-    /**
-     * @param array $data
-     * @return mixed
-     */
+    public function whereBetween(string $column, $from = null, $to = null)
+    {
+        if (!property_exists($this, 'obj')) {
+            Log::error('Missing OBJ attribute in ServiceTraitwhereBetween');
+            throw new RuntimeException('Missing OBJ attribute in ServiceTraitwhereBetween');
+        }
+        try {
+
+            $this->obj = $this->obj->whereBetween($column, $from, $to);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+        }
+        return $this;
+    }
+
+    public function whereDate(string $column, $date = null)
+    {
+        if (!property_exists($this, 'obj')) {
+            Log::error('Missing OBJ attribute in ServiceTraitwhereDate');
+            throw new RuntimeException('Missing OBJ attribute in ServiceTraitwhereDate');
+        }
+        try {
+            $this->obj = $this->obj->whereDate($column, $date);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+        }
+        return $this;
+    }
+
+    public function orWhereBetween(string $column, $from = null, $to = null)
+    {
+        if (!property_exists($this, 'obj')) {
+            Log::error('Missing OBJ attribute in ServiceTraitorWhereBetween');
+            throw new RuntimeException('Missing OBJ attribute in ServiceTraitorWhereBetween');
+        }
+        try {
+            $this->obj = $this->obj->orWhereBetween($column, $from, $to);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+        }
+        return $this;
+    }
+
     function create(array $data)
     {
         if (!property_exists($this, 'obj')) {
@@ -392,7 +431,7 @@ trait ServiceTrait
         $get_class = get_class($obj);
         $get_class_basename = class_basename(get_class($obj));
 
-        $event = (string) 'App\\Events\\' . $get_class_basename . $action . 'Event';
+        $event = (string)'App\\Events\\' . $get_class_basename . $action . 'Event';
         //Log::info($event);
 
         if (class_exists($event)) {
@@ -401,7 +440,7 @@ trait ServiceTrait
 
         $explodeClass = explode('\\', $get_class);
         if (isset($explodeClass[0]) && $explodeClass[0] == 'ConfrariaWeb' && isset($explodeClass[1])) {
-            $eventCW = (string) 'ConfrariaWeb\\' . $explodeClass[1] . '\\Events\\' . $get_class_basename . $action . 'Event';
+            $eventCW = (string)'ConfrariaWeb\\' . $explodeClass[1] . '\\Events\\' . $get_class_basename . $action . 'Event';
             //Log::info($eventCW);
 
             if (class_exists($eventCW)) {

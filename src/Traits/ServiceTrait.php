@@ -542,6 +542,12 @@ trait ServiceTrait
         return $data;
     }
 
+    public function validateDate($date, $format = 'Y-m-d H:i:s')
+    {
+        $d = \DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
+    }
+
     public function sometimes($data)
     {
         if (isset($data) && isset($this->sometimes) && is_array($this->sometimes)) {
@@ -581,6 +587,7 @@ trait ServiceTrait
     public function datatable($data)
     {
         $table = $this->obj->obj->getTable();
+        $dates = $this->obj->obj->getDates();
         $objThis = (!isset($data['trashed']) || $data['trashed'] < 1) ? $this->obj : $this->obj->onlyTrashed();
         $draw = isset($data['draw']) ? $data['draw'] : NULL;
         $skip = isset($data['start']) ? $data['start'] : 0;
@@ -590,6 +597,24 @@ trait ServiceTrait
         $columns = isset($data['columns']) ? $data['columns'] : NULL;
         $order = $table . '.' . 'id';
         $orderBy = 'asc';
+        if(isset($where)){
+            $formatsDates = [
+                'd/m/Y H:i',
+                'd/m/Y H:i:s',
+                'Y-m-d H:i',
+                'Y-m-d H:i:s'
+            ];
+            foreach($where as $whereDateKey => $whereDate){
+                if(in_array($whereDateKey, $dates)){
+                    foreach($formatsDates as $dateFormat){
+                        if(isset($where[$whereDateKey]) && $this->validateDate($where[$whereDateKey], $dateFormat)){
+                            $where[$whereDateKey] = \DateTime::createFromFormat($dateFormat, $where[$whereDateKey])
+                                ->format('Y-m-d H:i:s');
+                        }
+                    }
+                }
+            }
+        }
         if (isset($data['order']) && isset($columns[$data['order'][0]['column']]['name'])) {
             $order = $columns[$data['order'][0]['column']]['name'];
         }

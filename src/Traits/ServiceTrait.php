@@ -2,6 +2,7 @@
 
 namespace ConfrariaWeb\Vendor\Traits;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 trait ServiceTrait
@@ -568,9 +569,11 @@ trait ServiceTrait
     {
         $createComment = $this->obj->find($id);
         $user_id = isset($createComment->user_id) ?: NULL;
+        $user_id = (Auth::check())? Auth::id() : $user_id;
         $user_id = is_array($data) && isset($data['user_id']) ? $data['user_id'] : $user_id;
         $content = is_array($data) ? $data['content'] : $data;
         if (isset($user_id) && isset($content)) {
+            //dd($id, $user_id, $content, $createComment);
             $comment = $createComment->comments()->create([
                 'content' => $content,
                 'user_id' => $user_id

@@ -333,7 +333,7 @@ trait ServiceTrait
             throw new RuntimeException('Missing OBJ attribute in ServiceTraitUpdateOrCreate');
         }
         try {
-            $data = $this->prepareData($data);;
+            $data = $this->prepareData($data);
             $updateOrCreate = $this->findBy($key_field, data_get($data, $key_field));
 
             $data = $this->prepareRelationships($data);
@@ -589,6 +589,7 @@ trait ServiceTrait
 
     public function datatable($data)
     {
+        //dd($data);
         $table = $this->obj->obj->getTable();
         $dates = $this->obj->obj->getDates();
         $objThis = (!isset($data['trashed']) || $data['trashed'] < 1) ? $this->obj : $this->obj->onlyTrashed();
@@ -624,8 +625,12 @@ trait ServiceTrait
         if (isset($data['order'][0]['dir'])) {
             $orderBy = $data['order'][0]['dir'];
         }
-        $recordsTotal = $objThis->all()->count();
+        $recordsTotal = $objThis
+            //->withoutGlobalScopes($data['without_scopes']?? [])
+            ->all()
+            ->count();
         $objThis = $objThis
+            //->withoutGlobalScopes($data['without_scopes']?? [])
             ->where($where)
             ->orWhere($orWhere);
         $recordsFiltered = $objThis->get()->count();

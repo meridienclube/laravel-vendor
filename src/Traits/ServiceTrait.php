@@ -241,7 +241,7 @@ trait ServiceTrait
             $obj = $this->obj->create($data);
             $this->executeEvent($obj, 'Saved');
             $this->executeEvent($obj, 'Created');
-            $this->executeSchedule($obj, 'Saved');
+            //$this->executeSchedule($obj, 'Saved');
             $this->executeSchedule($obj, 'Created');
             return $obj;
         } catch (Exception $e) {

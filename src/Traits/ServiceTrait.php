@@ -589,7 +589,6 @@ trait ServiceTrait
 
     public function datatable($data)
     {
-        //dd($data);
         $table = $this->obj->obj->getTable();
         $dates = $this->obj->obj->getDates();
         $objThis = (!isset($data['trashed']) || $data['trashed'] < 1) ? $this->obj : $this->obj->onlyTrashed();
@@ -625,12 +624,14 @@ trait ServiceTrait
         if (isset($data['order'][0]['dir'])) {
             $orderBy = $data['order'][0]['dir'];
         }
+        if(isset($where['withoutGlobalScope'])){
+            $objThis = $objThis->where(['withoutGlobalScope' => $where['withoutGlobalScope']]);
+        }
         $recordsTotal = $objThis
-            //->withoutGlobalScopes($data['without_scopes']?? [])
-            ->all()
+            ->get()
             ->count();
+
         $objThis = $objThis
-            //->withoutGlobalScopes($data['without_scopes']?? [])
             ->where($where)
             ->orWhere($orWhere);
         $recordsFiltered = $objThis->get()->count();

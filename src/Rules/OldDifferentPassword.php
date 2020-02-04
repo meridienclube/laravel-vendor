@@ -2,7 +2,7 @@
 
 namespace ConfrariaWeb\Vendor\Rules;
 
-use MeridienClube\Meridien\User;
+use App\User;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 

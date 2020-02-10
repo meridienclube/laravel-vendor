@@ -2,8 +2,6 @@
 
 namespace ConfrariaWeb\Vendor\Traits;
 
-use ConfrariaWeb\Jkanban\Resources\Kanban;
-use ConfrariaWeb\Jkanban\Resources\KanbanResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 

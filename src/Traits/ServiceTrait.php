@@ -2,6 +2,8 @@
 
 namespace ConfrariaWeb\Vendor\Traits;
 
+use ConfrariaWeb\Jkanban\Resources\Kanban;
+use ConfrariaWeb\Jkanban\Resources\KanbanResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -569,7 +571,7 @@ trait ServiceTrait
     {
         $createComment = $this->obj->find($id);
         $user_id = isset($createComment->user_id) ?: NULL;
-        $user_id = (Auth::check())? Auth::id() : $user_id;
+        $user_id = (Auth::check()) ? Auth::id() : $user_id;
         $user_id = is_array($data) && isset($data['user_id']) ? $data['user_id'] : $user_id;
         $content = is_array($data) ? $data['content'] : $data;
         if (isset($user_id) && isset($content)) {
@@ -600,17 +602,17 @@ trait ServiceTrait
         $columns = isset($data['columns']) ? $data['columns'] : NULL;
         $order = $table . '.' . 'id';
         $orderBy = 'asc';
-        if(isset($where)){
+        if (isset($where)) {
             $formatsDates = [
                 'd/m/Y H:i',
                 'd/m/Y H:i:s',
                 'Y-m-d H:i',
                 'Y-m-d H:i:s'
             ];
-            foreach($where as $whereDateKey => $whereDate){
-                if(in_array($whereDateKey, $dates)){
-                    foreach($formatsDates as $dateFormat){
-                        if(isset($where[$whereDateKey]) && $this->validateDate($where[$whereDateKey], $dateFormat)){
+            foreach ($where as $whereDateKey => $whereDate) {
+                if (in_array($whereDateKey, $dates)) {
+                    foreach ($formatsDates as $dateFormat) {
+                        if (isset($where[$whereDateKey]) && $this->validateDate($where[$whereDateKey], $dateFormat)) {
                             $where[$whereDateKey] = \DateTime::createFromFormat($dateFormat, $where[$whereDateKey])
                                 ->format('Y-m-d H:i:s');
                         }
@@ -624,7 +626,7 @@ trait ServiceTrait
         if (isset($data['order'][0]['dir'])) {
             $orderBy = $data['order'][0]['dir'];
         }
-        if(isset($where['withoutGlobalScope'])){
+        if (isset($where['withoutGlobalScope'])) {
             $objThis = $objThis->where(['withoutGlobalScope' => $where['withoutGlobalScope']]);
         }
         $recordsTotal = $objThis
@@ -687,4 +689,5 @@ trait ServiceTrait
     {
         return $this->obj->createContact($data, $id);
     }
+
 }

@@ -657,9 +657,8 @@ trait ServiceTrait
      * @param $data
      * @return array
      */
-    protected function prepareContacts($data)
+    protected function prepareContacts($data, $contacts = [])
     {
-        $contacts = [];
         if (!isset($data)) {
             return $contacts;
         }
@@ -672,12 +671,21 @@ trait ServiceTrait
                 $contacts[] = ['type_id' => $v['type_id'], 'content' => $v['content']];
                 continue;
             }
-            if (!is_string($k) || !is_string($v)) {
+            if (is_string($k) && is_string($v)) {
+                $type = resolve('ContactTypeService')->findBy('slug', $k);
+                if ($type) {
+                    $contacts[] = ['type_id' => $type->id, 'content' => $v];
+                }
                 continue;
             }
-            $type = resolve('ContactTypeService')->findBy('slug', $k);
-            if ($type) {
-                $contacts[] = ['type_id' => $type->id, 'content' => $v];
+            if (is_string($k) && is_array($v)) {
+                foreach($v as $v_v) {
+                    $type = resolve('ContactTypeService')->findBy('slug', $k);
+                    if ($type) {
+                        $contacts[] = ['type_id' => $type->id, 'content' => $v_v];
+                    }
+                }
+                continue;
             }
         }
         return $contacts;

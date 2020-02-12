@@ -233,9 +233,9 @@ trait ServiceTrait
         }
         try {
             //dd($this->obj);
+            //$data = $this->sometimes($data);
             $data = $this->prepareData($data);
             $data = $this->prepareRelationships($data);
-            //$data = $this->sometimes($data);
             $this->executeEvent($this->obj->obj, 'Saving');
             $this->executeEvent($this->obj->obj, 'Creating');
             $obj = $this->obj->create($data);
@@ -279,9 +279,9 @@ trait ServiceTrait
             throw new RuntimeException('Missing OBJ attribute in ServiceTraitUpdate');
         }
         try {
+            $data = $this->sometimes($data);
             $data = $this->prepareData($data);
             $data = $this->prepareRelationships($data);
-            $data = $this->sometimes($data);
             $obj = $this->obj->find($id);
             if ($obj) {
                 $this->executeEvent($obj, 'Saving');
@@ -333,11 +333,11 @@ trait ServiceTrait
             throw new RuntimeException('Missing OBJ attribute in ServiceTraitUpdateOrCreate');
         }
         try {
+            $data = $this->sometimes($data);
             $data = $this->prepareData($data);
             $updateOrCreate = $this->findBy($key_field, data_get($data, $key_field));
 
             $data = $this->prepareRelationships($data);
-            $data = $this->sometimes($data);
 
             $attributes = [$key_field => data_get($data, $key_field)];
 
@@ -679,7 +679,7 @@ trait ServiceTrait
                 continue;
             }
             if (is_string($k) && is_array($v)) {
-                foreach($v as $v_v) {
+                foreach ($v as $v_v) {
                     $type = resolve('ContactTypeService')->findBy('slug', $k);
                     if ($type) {
                         $contacts[] = ['type_id' => $type->id, 'content' => $v_v];
@@ -694,6 +694,16 @@ trait ServiceTrait
     public function createContact(array $data, int $id)
     {
         return $this->obj->createContact($data, $id);
+    }
+
+
+    public function fields(array $fields = [])
+    {
+        foreach ($this->obj->obj->getFillable() as $field) {
+            $fields[strtolower($field)] = __(ucfirst($field));
+        }
+        asort($fields);
+        return collect($fields);
     }
 
 }

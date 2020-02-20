@@ -362,6 +362,7 @@ trait RepositoryTrait
             $this->syncWithoutDetachingEloquent($obj, $data['syncWithoutDetaching']);
             $this->syncWithoutDetaching($obj, $data['syncWithoutDetaching']);
         }
+
     }
 
     /**

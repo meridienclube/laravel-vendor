@@ -68,9 +68,9 @@ trait ServiceTrait
         return $this;
     }
 
-    public function select($fields)
+    public function select($clause)
     {
-        $this->obj = $this->obj->select($fields);
+        $this->obj = $this->obj->select($clause);
         return $this;
     }
 

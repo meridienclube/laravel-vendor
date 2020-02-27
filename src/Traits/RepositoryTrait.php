@@ -79,9 +79,9 @@ trait RepositoryTrait
         return $this->obj->paginate($take);
     }
 
-    public function select($fields = false)
+    public function select($clause = false)
     {
-        $this->obj = ($fields) ? $this->obj->select($fields) : $this->obj;
+        $this->obj = ($clause) ? $this->obj->select($clause) : $this->obj;
         return $this;
     }
 

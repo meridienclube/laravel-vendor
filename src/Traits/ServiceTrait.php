@@ -700,10 +700,11 @@ trait ServiceTrait
     public function fields(array $fields = [])
     {
         foreach ($this->obj->obj->getFillable() as $field) {
-            $fields[strtolower($field)] = __(ucfirst($field));
+            $fields[strtolower($field)] = ucfirst($field);
         }
-        asort($fields);
-        return collect($fields);
+        $options = resolve('OptionService')->pluck('label', 'name');
+        $merged = $options->merge($fields);
+        return collect($merged->sort());
     }
 
 }

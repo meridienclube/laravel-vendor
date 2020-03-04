@@ -696,7 +696,6 @@ trait ServiceTrait
         return $this->obj->createContact($data, $id);
     }
 
-
     public function fields(array $fields = [])
     {
         foreach ($this->obj->obj->getFillable() as $field) {

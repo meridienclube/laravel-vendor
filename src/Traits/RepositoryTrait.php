@@ -2,6 +2,8 @@
 
 namespace ConfrariaWeb\Vendor\Traits;
 
+use ConfrariaWeb\Entrust\Models\Role;
+use ConfrariaWeb\Entrust\Models\Rolee;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Builder;

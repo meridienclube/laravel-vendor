@@ -630,7 +630,6 @@ trait ServiceTrait
         $recordsTotal = $objThis
             ->get()
             ->count();
-
         $objThis = $objThis
             ->where($where)
             ->orWhere($orWhere);
